@@ -16,6 +16,7 @@ export const signUp = (FormData) => API.post("/users/signup",FormData);
 
 export const createPost = (FormData) => API.post("/post",FormData);
 export const getPosts = (page) => API.get(`/post?page=${page}`);
+export const getPostsDashboad = (page) => API.get(`/post/dashboard?page=${page}`);
 export const getPost = (id) => API.get(`/post/${id}`);
 export const deletePost = (id) => API.delete(`/post/${id}`);
 export const updatePost = (updatedData,id)  => API.patch(`/post/${id}`,updatedData);

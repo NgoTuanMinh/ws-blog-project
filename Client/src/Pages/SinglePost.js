@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { MDBCard, MDBCardBody, MDBContainer, MDBCardText, MDBIcon, MDBBtn } from "mdb-react-ui-kit"
+import { MDBCard, MDBCardBody, MDBContainer, MDBCardText, MDBIcon, MDBBtn, MDBInput } from "mdb-react-ui-kit"
 import { useDispatch, useSelector } from 'react-redux'
 import { getPost } from '../Redux/Features/postSlice';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -18,7 +18,7 @@ export default function SinglePost() {
 
   return (
     <MDBContainer>
-        <MDBCard className='mb-3 mt-2'>
+        <MDBCard className='mb-3' style={{marginTop: 60}}>
             <MDBCardBody>
             <MDBBtn
               tag="a"
@@ -26,9 +26,9 @@ export default function SinglePost() {
               style={{ float: "left", color: "#000" }}
               onClick={() => navigate("/")}
             >
-              <MDBIcon fas icon="backward" style={{ float: "left" }} size="2x" />
+              <MDBIcon fas icon="backward" style={{ float: "left" }} size="16" />
             </MDBBtn>
-                <h3>{post.title}</h3>
+                <h3>{post?.title}</h3>
                 <span>
                     <p className='text-start postName'>Created By: {post.name}</p>
                 </span>
@@ -45,9 +45,13 @@ export default function SinglePost() {
                     </small>
                 </MDBCardText>
                 <MDBCardText className='lead mb-0 text-start'>
-                    {post.title}
+                    {post.content}
                 </MDBCardText>
             </MDBCardBody>
+        </MDBCard>
+
+        <MDBCard>
+            <MDBInput />
         </MDBCard>
     </MDBContainer>
   )

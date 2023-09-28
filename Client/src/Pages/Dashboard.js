@@ -13,7 +13,7 @@ export default function Dashboard() {
     const {loading, posts} = useSelector((state)=>({...state.post}));
     
     useEffect(()=> {
-        dispatch(getPosts());
+        dispatch(getPosts({page: 1, isOwner: true}));
     },[dispatch])
 
     const excerpt = (str) => {

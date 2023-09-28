@@ -29,6 +29,23 @@ export const getPosts = async(req, res) => {
     }
 }
 
+export const getPostsDashboad = async(req, res) => {
+    try {
+        const {page, limit = 10} = req.query;
+        const total = await postModel.countDocuments({});
+        const skip = (Number(page)-1 ) * limit;
+        const posts = await postModel.find({creator: req.userId}).limit(limit).skip(skip);
+        res.json({
+            data: posts,
+            currentPage: Number(page),
+            totalPosts: total,
+            noOfPages: Math.ceil(total / limit)
+        })
+    } catch (error) {
+        res.status(500).json({message: error})
+    }
+}
+
 export const getPost = async(req, res) => {
     try {
         const {id} = req.params;
@@ -60,7 +77,19 @@ export const updatePost = async(req, res) => {
             return res.status(404).json({message: "Not exist"});
         }
         const updatedData = {title, content, creator, _id: id}
-        await postModel.findByIdAndUpdate(id,updatedData,{new: true});
+
+        const post = await postModel.findById(id);
+
+        if (post.creator !== req.userId) return res.status(500).json({message: "Not permission"});
+
+        if (title !== undefined || title !== null) {
+            post.title = title
+        }
+        if (content !== undefined || content !== null) {
+            post.content = content
+        }
+        await post.save();
+
         return res.status(200).json(updatedData);   
     } catch (error) {
         return res.status(500).json({message: "Something went wrong"});  

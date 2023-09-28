@@ -11,9 +11,9 @@ export const createPost = createAsyncThunk("post/create", async({updatedPostData
         return rejectWithValue(error.response.data);
     }
 })
-export const getPosts = createAsyncThunk("post/get", async(page,{rejectWithValue})=>{
+export const getPosts = createAsyncThunk("post/get", async({page = 1, isOwner},{rejectWithValue})=>{
     try {
-        const response = await api.getPosts(page);
+        const response = isOwner ? await api.getPostsDashboad(page) : await api.getPosts(page);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data);
